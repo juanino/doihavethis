@@ -23,3 +23,6 @@ As drives got bigger, it makes no sense to have bunches of disks laying around.
 Also, it is handy if you are not sure which files you pulled off an SD card, or if you happen to (like in my case) blow away or corrupt an SD card
 and use the wonderful photorec and testdisk to recover the files off the chip, but have no idea which files you already downloaded since recovery
 pulls every non-clobbered file off that chip, even if you meant to delete it previously.
+
+# links
+https://www.cgsecurity.org/wiki/PhotoRec_Step_By_Step
