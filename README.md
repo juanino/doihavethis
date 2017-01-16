@@ -13,6 +13,7 @@ Compare multi-level directory structure of pictures to some pile of pictures or 
 1. I'm lazy. the md5sum code doesn't buffer, so it will use a ridiculous amount of memory if you have a big file
 2. the md5sum of the master and questionable directories are not stored anywhere. it's slow since it calculates them every time. fine by me.
 3. the python dict is in memory for both md5sum (master and questionable) so it can take up a lot of memory
+4. it likely only works in python 2, i'm too lazy to fix the print statements
 
 # Why did i do this
 Mostly because I seem to rewrite variations of this all the time and i can't find my code.
