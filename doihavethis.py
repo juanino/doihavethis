@@ -4,6 +4,7 @@ import os
 import hashlib
 import pprint
 import sys
+import doihavethisconfig as cfg
 
 # Author: Jerry Uanino
 # Purpose: Do I have this file in my picture library?
@@ -17,12 +18,11 @@ import sys
 #        match to make sure you can safely avoid duplicates
 
 # the top level where you store most of your files
-master_dir = "/root/path/to/your/photos"
-
+master_dir = cfg.directories['master_dir']
 
 # directory containing files you just found
 # and have no idea if you already downloaded them
-questionable_dir = "/dir/where/you/copied/files/you/found"
+questionable_dir = cfg.directories['questionable_dir']
 
 masterlibrary = dict()
 queslibrary = dict()
