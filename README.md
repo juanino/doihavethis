@@ -2,19 +2,20 @@
 Compare multi-level directory structure of pictures to some pile of pictures or videos you just found on a disk.
 
 # How it works
-1. git clone the repo
-2. edit master_dir with the top of your photo tree directory
-3. edit questionable_dir with the location of some files in questions to check
-4. run ./doihavethis.py
-5. the output of the script will note "You should preserve" for files in the questionable directory
-   that it can't find matching md5sum's for in the master. (They must not exist or are differnent/corrupt).
+* git clone the repo
+* copy sampleconfig.py to doihavethisconfig.py
+* edit master_dir in your config with the top of your photo tree directory
+* edit questionable_dir in your config with the location of some files in questions to check
+* run ./doihavethis.py
+* the output of the script will note "You should preserve" for files in the questionable directory
+   that it can't find matching md5sum's for in the master. (They must not exist or are different/corrupt).
 
 # Some issues
-1. I'm lazy. the md5sum code doesn't buffer, so it will use a ridiculous amount of memory if you have a big file
-2. the md5sum of the master and questionable directories are not stored anywhere. it's slow since it calculates them every time. fine by me.
-3. the python dict is in memory for both md5sum (master and questionable) so it can take up a lot of memory
-4. it likely only works in python 2, i'm too lazy to fix the print statements
-5. it only works against one master dir. if you have 2 libraries you need to run it twice for now
+* I'm lazy. the md5sum code doesn't buffer, so it will use a ridiculous amount of memory if you have a big file
+* the md5sum of the master and questionable directories are not stored anywhere. it's slow since it calculates them every time. fine by me.
+* the python dict is in memory for both md5sum (master and questionable) so it can take up a lot of memory
+* it likely only works in python 2, i'm too lazy to fix the print statements
+* it only works against one master dir. if you have 2 libraries you need to run it twice for now
 
 # Why did i do this
 Mostly because I seem to rewrite variations of this all the time and i can't find my code.
@@ -27,4 +28,5 @@ and use the wonderful photorec and testdisk to recover the files off the chip, b
 pulls every non-clobbered file off that chip, even if you meant to delete it previously.
 
 # links
-https://www.cgsecurity.org/wiki/PhotoRec_Step_By_Step
+* [Tool for recovering photos](https://www.cgsecurity.org/wiki/PhotoRec_Step_By_Step)
+* [Using config files in python](https://martin-thoma.com/configuration-files-in-python)
