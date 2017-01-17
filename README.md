@@ -2,6 +2,7 @@
 Compare multi-level directory structure of pictures to some pile of pictures or videos you just found on a disk.
 
 # How it works
+* get python3 for your platform (tested with python 3.4.3)
 * git clone the repo
 * copy sampleconfig.py to doihavethisconfig.py
 * edit master_dir in your config with the top of your photo tree directory
@@ -14,7 +15,6 @@ Compare multi-level directory structure of pictures to some pile of pictures or 
 * I'm lazy. the md5sum code doesn't buffer, so it will use a ridiculous amount of memory if you have a big file
 * the md5sum of the master and questionable directories are not stored anywhere. it's slow since it calculates them every time. fine by me.
 * the python dict is in memory for both md5sum (master and questionable) so it can take up a lot of memory
-* it likely only works in python 2, i'm too lazy to fix the print statements
 * it only works against one master dir. if you have 2 libraries you need to run it twice for now
 
 # Why did i do this

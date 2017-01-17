@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 import os
 import hashlib
@@ -40,13 +40,13 @@ def write_to_ques_dict(checksum,fullpath):
 
 def dump_library(libraryname, description):
     num_items = len(libraryname)
-    print "."
-    print "\t\t", description + " has " + str(num_items) + " items in the hash table"
+    print(".")
+    print("\t\t", description + " has " + str(num_items) + " items in the hash table")
 
 
 def compare():
-    print "\nRunning compare"
-    print "---------------"
+    print("\nRunning compare")
+    print("---------------")
     # start with the questionable dataset as the master
     for key in queslibrary:
         # debug ## print "Looking up key " + key
@@ -55,22 +55,22 @@ def compare():
             # print " ---- This file is in the master ----- "
             # print "Master library file is " + masterlibrary[key]
             # print "Questionable library file is " + queslibrary[key]
-            print queslibrary[key] + " is a dup to " + masterlibrary[key]
+            print(queslibrary[key] + " is a dup to " + masterlibrary[key])
         else:
-            print "You should preserve " + queslibrary[key] + " because it is not in the master"
+            print("You should preserve " + queslibrary[key] + " because it is not in the master")
 
 #
 # MAIN
 #
 # walk the master dir 
 for root, dirs, files in os.walk(master_dir):
-    print "\nroot dir",  root
-    print "computing ", len(files), " chksums"
+    print("\nroot dir",  root)
+    print("computing ", len(files), " chksums")
     for file in files:
         fullpath = root+"/"+file
         checksum = hashlib.md5(open(fullpath, 'rb').read()).hexdigest()
         # debug ## print "hash of file", fullpath, "is ", checksum
-        print ".",
+        sys.stdout.write('.')
         sys.stdout.flush() # make sure dots show up one by one
         # write to dictionary with checksum as key
         write_to_master_dict(checksum, fullpath)
@@ -78,11 +78,11 @@ for root, dirs, files in os.walk(master_dir):
 
 # walk the questionable dir
 for root, dirs, files in os.walk(questionable_dir):
-    print "root dir",  root
+    print("root dir",  root)
     for file in files:
         fullpath = root+"/"+file
         checksum = hashlib.md5(open(fullpath, 'rb').read()).hexdigest()
-        print "hash of file", fullpath, "is ", checksum
+        print("hash of file", fullpath, "is ", checksum)
         # write to dictionary with checksum as key
         write_to_ques_dict(checksum, fullpath)
     dump_library(queslibrary, "questionable")
