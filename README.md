@@ -10,6 +10,8 @@ Compare multi-level directory structure of pictures to some pile of pictures or 
 * run ./doihavethis.py
 * the output of the script will note "You should preserve" for files in the questionable directory
    that it can't find matching md5sum's for in the master. (They must not exist or are different/corrupt).
+* all useful output goes to the log file configured in the tunables section as log_file
+* stdout only prints -D- when it finds a directory or "F" when it's working on a hash for a file
 
 # Some issues
 * I'm lazy. the md5sum code doesn't buffer, so it will use a ridiculous amount of memory if you have a big file

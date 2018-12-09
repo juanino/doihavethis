@@ -60,9 +60,9 @@ def compare():
             # print " ---- This file is in the master ----- "
             # print "Master library file is " + masterlibrary[key]
             # print "Questionable library file is " + queslibrary[key]
-            print(queslibrary[key] + " is a dup to " + masterlibrary[key])
+            logger.info(queslibrary[key] + " is a dup to " + masterlibrary[key])
         else:
-            print("You should preserve " + queslibrary[key] + " because it is not in the master")
+            logger.info("You should preserve " + queslibrary[key] + " because it is not in the master")
 
 #
 # MAIN
