@@ -4,7 +4,6 @@ import os
 import hashlib
 import pprint
 import sys
-import doihavethisconfig as cfg
 import logging
 import time
 import pickledb
