@@ -9,7 +9,7 @@ import logging
 import time
 import pickledb
 
-dir_to_inventory = '/data/zips//albums/feb07/'
+dir_to_inventory = '/data/zips/'
 
 db = pickledb.load('db_s3.pickle', False)
 
