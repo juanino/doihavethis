@@ -63,6 +63,7 @@ def compare():
             logger.info(queslibrary[key] + " is a dup to " + masterlibrary[key])
         else:
             logger.info("You should preserve " + queslibrary[key] + " because it is not in the master")
+            print("You should preserve " + queslibrary[key] + " because it is not in the master")
 
 #
 # MAIN
