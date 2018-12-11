@@ -1,8 +1,17 @@
 #!/usr/bin/python3
 
 import pickledb
+import sys
 
-db = pickledb.load('db_s3.pickle',False)
+# pass file to list keys
+try:
+    pickle_file = sys.argv[1]
+except:
+    print("Supply a filename to list keys")
+    exit()
+
+print(pickle_file)
+db = pickledb.load(pickle_file,False)
 
 keys = db.getall()
 for key in keys:
