@@ -18,10 +18,10 @@ keys1 = db.getall()
 keys2 = db2.getall()
 
 for key in keys1:
-    #print(key + " " + db.get(key)
-    ###print(key + "->" + str(db.exists(key)) + "-" +  str(db2.exists(key)))
     if db.exists(key) and db2.exists(key):
-        print(key + "->" + str(db.exists(key)) + "-" +  str(db2.exists(key)))
+        print("Duplicate " + key + "->" + str(db.exists(key)) + "-" +  str(db2.exists(key)))
+    else:
+        print("Preserve  " + key + "->" + str(db.exists(key)) + "-" +  str(db2.exists(key)))
     
 #for key in keys2:
    #print(key + " " + db2.get(key))
