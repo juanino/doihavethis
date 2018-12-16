@@ -8,9 +8,17 @@ import logging
 import time
 import pickledb
 
-dir_to_inventory = '/data/zips/'
 
-db = pickledb.load('db_s3.pickle', False)
+# first arg is the pickle to save
+# second arg is the path to inventory
+try:
+    pickle_file = sys.argv[1]
+    dir_to_inventory = sys.argv[2]
+except:
+    print("Supply two files, the pickle filename to save and then the directory to scan")
+    exit()
+
+db = pickledb.load(pickle_file, False)
 
 def write_to_db(checksum, fullpath):
     db.set(checksum,fullpath)
