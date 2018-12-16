@@ -20,14 +20,20 @@ keys2 = db2.getall()
 print("there are " + str(len(keys1)) + " in left file" )
 print("there are " + str(len(keys2)) + " in right file" )
 
+dup_counter = 0
+keep_counter = 0
 for key in keys1:
     if db.exists(key) and db2.exists(key):
         print("Duplicate " + key + " -> " + str(db.exists(key)) + " - " +  str(db2.exists(key)) + " file left: " + str(db.get(key)) + " file right: " + str(db2.get(key)) )
+        dup_counter = dup_counter + 1
     else:
         print("Preserve  " + key + " -> " + str(db.exists(key)) + " - " +  str(db2.exists(key)) + " file left: " + str(db.get(key)) + " file right: " + str(db2.get(key))  ) 
+        keep_counter = keep_counter + 1
     
 #for key in keys2:
    #print(key + " " + db2.get(key))
 
 print("there are " + str(len(keys1)) + " in left file" )
 print("there are " + str(len(keys2)) + " in right file" )
+print("Duplicates: " + str(dup_counter))
+print("Ones you should keep: " + str(keep_counter))
