@@ -15,7 +15,7 @@ try:
     pickle_file = sys.argv[1]
     dir_to_inventory = sys.argv[2]
 except:
-    print("Supply two files, the pickle filename to save and then the directory to scan")
+    print("Supply two args, the pickle filename to save and then the directory to scan")
     exit()
 
 db = pickledb.load(pickle_file, False)
