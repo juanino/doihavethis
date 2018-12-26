@@ -1,12 +1,12 @@
 #!/usr/bin/python3
 
 import os
-import hashlib
 import pprint
 import sys
 import logging
 import time
 import pickledb
+from filehash import FileHash
 
 
 # first arg is the pickle to save
@@ -48,7 +48,8 @@ for root, dirs, files in os.walk(dir_to_inventory):
     logger.info("root dir " +  root)
     for file in files:
         fullpath = root+"/"+file
-        checksum = hashlib.md5(open(fullpath, 'rb').read()).hexdigest()
+        md5hasher = FileHash('md5')
+        checksum = md5hasher.hash_file(fullpath)
         logger.info("hash of file " + fullpath +  " is " + checksum)
         sys.stdout.write('F')
         sys.stdout.flush() # make sure dots show up one by one
