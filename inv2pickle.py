@@ -21,11 +21,11 @@ try:
     dir_to_inventory = sys.argv[2]
 except:
     print("Supply two args, the pickle filename to save and then the directory to scan")
-    exit()
+    sys.exit()
 
 if path.exists(pickle_file):
     print("pickle file exists already, probably want to wipe it out or move it")
-    exit(2)
+    sys.exit(2)
 
 db = pickledb.load(pickle_file, False)
 
