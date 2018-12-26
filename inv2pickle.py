@@ -7,7 +7,12 @@ import logging
 import time
 import pickledb
 from filehash import FileHash
+from os import path
 
+# track runtime in case we change hash algorithms in future we can compare
+# also when we switch computers this is a good benchmark of I/O for us
+
+start_time = time.time()
 
 # first arg is the pickle to save
 # second arg is the path to inventory
@@ -17,6 +22,10 @@ try:
 except:
     print("Supply two args, the pickle filename to save and then the directory to scan")
     exit()
+
+if path.exists(pickle_file):
+    print("pickle file exists already, probably want to wipe it out or move it")
+    exit(2)
 
 db = pickledb.load(pickle_file, False)
 
@@ -60,3 +69,7 @@ for root, dirs, files in os.walk(dir_to_inventory):
 
 # cleanm up
 db.dump()
+print("\nend")
+
+runtime = time.time() - start_time
+logger.info("Time done is -> " + str(runtime) + " seconds.")
