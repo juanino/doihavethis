@@ -26,6 +26,8 @@ root@blah:~# ./doihavethis/pickle_list.py my_stuff.db
 * repeat on all systems or directories where you have photos or files you want to inventory
 * run cmp_pickles.py to compare two files. Always list the "master" database last since it only compares one direction.
 * cmp_pickles can be read as "compare the newly found files in the first arg with the master db in the second arg"
+* you can copy the db files around as needed
+* you can run pickle_list.py and grep for any file you have an md5 sum of to see if it's in your master
 
 # Issues
 * you can't give it multiple directories. run inv2pickle.py twice and use merge_pickles.py to combine them
