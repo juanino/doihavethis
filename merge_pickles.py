@@ -27,8 +27,13 @@ right_keys = rightdb.getall()
 
 for key in left_keys:
     newdb.set(key,leftdb.get(key))
-    sys.stdout.write(".")
-    sys.stdout.flush() # make sure dots show up one by one
+    sys.stdout.write("L")
+    sys.stdout.flush() 
+
+for key in right_keys:
+    newdb.set(key,rightdb.get(key))
+    sys.stdout.write("R")
+    sys.stdout.flush() 
 
     
 newdb.dump()
