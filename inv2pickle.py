@@ -25,11 +25,19 @@ except:
 
 if path.exists(pickle_file):
     print("pickle file exists already, probably want to wipe it out or move it")
+    print("especially since I do not delete rows that are gone")
     sys.exit(2)
 
 db = pickledb.load(pickle_file, False)
+duplicates = 0
 
 def write_to_db(checksum, fullpath):
+    if db.exists(checksum):
+        sys.stdout.write('-Duplicate-')
+        sys.stdout.flush() # make sure dots show up one by one
+        logger.info(fullpath + ' is a duplicate to ' + db.get(checksum) )
+        global duplicates
+        duplicates = duplicates + 1
     db.set(checksum,fullpath)
     
 # setup logging
@@ -70,6 +78,9 @@ for root, dirs, files in os.walk(dir_to_inventory):
 # cleanm up
 db.dump()
 print("\nend")
+if duplicates > 0:
+    print("Caution you have duplicates, check the log:" + log_file)
+    print("Duplicates: " + str(duplicates))
 
 runtime = time.time() - start_time
 logger.info("Time done is -> " + str(runtime) + " seconds.")
