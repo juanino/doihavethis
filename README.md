@@ -4,20 +4,28 @@ Compare multi-level directory structure of pictures to some pile of pictures or 
 # How it works
 * get python3 for your platform (tested with python 3.4.3)
 * git clone the repo
-* copy sampleconfig.py to doihavethisconfig.py
-* edit master_dir in your config with the top of your photo tree directory
-* edit questionable_dir in your config with the location of some files in questions to check
-* run ./doihavethis.py
-* the output of the script will note "You should preserve" for files in the questionable directory
-   that it can't find matching md5sum's for in the master. (They must not exist or are different/corrupt).
-* all useful output goes to the log file configured in the tunables section as log_file
+* run ./get_stuff.sh (works for apt-based systems)
+* run inventory of your stuff on a machine with inv2pickle.py
 * stdout prints -D- when it finds a directory or "F" when it's working on a hash for a file and the resulting comparison data (which is also in the info log)
+* stdout also prints -Duplicate- if duplicates are found WITHIN the directories you are running an inventory on
+```
+root@blah:~# python ./doihavethis-master/inv2pickle.py my_stuff.db /top_level_dir_of_stuff/
+-D--D-FFFFFFF-D-FFFFFFFFFFF-D-FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF-D-FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF-D-FFFFFFF-D-FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF-D-FFFFFFFFFFFFF-D-FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF-D-FFFF-D-FFFFFFFFFFFFFFFFFFF-D-FFFFFFFFFFFFFFF-D-FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF-D-FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF-D-FFFFFFFFFF-D-FFFFFFFFFF-D-FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF-D-FFFFFFF-D--D-FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF-D-FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF-D-FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF-D-FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+```
+* once the inventory is complete check inventory.log for any duplicates (grep duplicate)
+```
+root@blah:~# cat inventory.log |grep -i duplicate
+```
+* inspect your pickledb file that results
+```
+root@blah:~# ./doihavethis/pickle_list.py my_stuff.db
+```
+* repeat on all systems or directories where you have photos or files you want to inventory
+* run cmp_pickles.py to compare two files. Always list the "master" database last since it only compares one direction.
+* cmp_pickles can be read as "compare the newly found files in the first arg with the master db in the second arg"
 
-# Some issues
-* I'm lazy. the md5sum code doesn't buffer, so it will use a ridiculous amount of memory if you have a big file
-* the md5sum of the master and questionable directories are not stored anywhere. it's slow since it calculates them every time. fine by me.
-* the python dict is in memory for both md5sum (master and questionable) so it can take up a lot of memory
-* it only works against one master dir. if you have 2 libraries you need to run it twice for now
+# Issues
+* you can't give it multiple directories. run inv2pickle.py twice and use merge_pickles.py to combine them
 
 # Why did i do this
 Mostly because I seem to rewrite variations of this all the time and i can't find my code.
