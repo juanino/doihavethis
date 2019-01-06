@@ -33,13 +33,13 @@ if path.exists("check.db"):
     os.remove("check.db")
 
 # build the inventory of current reality
-return_code = os.system("inv2pickle.py check.db " +  check_dir)
+return_code = os.system("./inv2pickle.py check.db " +  check_dir)
 print(return_code)
 if return_code > 0:
     print("failed to inventory reality")
     sys.exit(2)
 
 # 3. Compare the two DBs, printing a summary
-return_code = os.system("cmp_pickles.py check.db " + master_db)
+return_code = os.system("./cmp_pickles.py check.db " + master_db)
 if return_code > 0:
     print("Comparison failed with return code " + str(return_code))
