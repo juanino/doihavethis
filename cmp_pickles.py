@@ -37,3 +37,16 @@ print("there are " + str(len(keys1)) + " in left file" )
 print("there are " + str(len(keys2)) + " in right file" )
 print("Duplicates: " + str(dup_counter))
 print("Ones you should keep: " + str(keep_counter))
+
+# build a return code for validator to use
+global audit_value
+audit_value = 0
+if len(keys1) == len(keys2):
+    print("file counts: PASS")
+else:
+    audit_value = audit_value + 1
+if dup_counter == len(keys1) and dup_counter == len(keys2):
+    print("they are all dups: PASS")
+else:
+    audit_value = audit_value +1
+sys.exit(audit_value)
