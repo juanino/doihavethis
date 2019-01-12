@@ -3,6 +3,10 @@
 import sys
 import os
 from os import path
+import socket
+
+hostname = (socket.gethostname())
+ipaddr = socket.gethostbyname(socket.gethostname())
 
 # Purpose: Fetch a master DB file and compare to a filesystem
 #          for purpose of regular auditing to detect bit rot or bit flips
@@ -43,3 +47,11 @@ if return_code > 0:
 return_code = os.system("./cmp_pickles.py check.db " + master_db)
 if return_code > 0:
     print("Comparison failed with return code " + str(return_code))
+    message = "./send_slack.py \"Validation failed on " + master_db + " hostname: " + hostname + "ipaddr: " + ipaddr + "\""
+    print(message)
+    os.system(message)
+else:
+    print(return_code) # should be 0
+    message = "./send_slack.py \"Validation succeeded on " + master_db + " hostname: " + hostname + "ipaddr: " + ipaddr + "\""
+    print(message)
+    os.system(message)
