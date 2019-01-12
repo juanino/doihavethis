@@ -11,6 +11,12 @@ except:
     print("Supply two filenames to compare")
     exit()
 
+# optional third param is to output report blob
+try:
+    report_file = sys.argv[3]
+except:
+    print("no report file passed, that is fine")
+
 db = pickledb.load(left_file,False)
 db2 = pickledb.load(right_file,False)
 
@@ -35,8 +41,8 @@ for key in keys1:
 
 print("there are " + str(len(keys1)) + " in left file" )
 print("there are " + str(len(keys2)) + " in right file" )
-print("Duplicates: " + str(dup_counter))
-print("Ones you should keep: " + str(keep_counter))
+print("Duplicates (matches) : " + str(dup_counter))
+print("Ones you should keep (new files): " + str(keep_counter))
 
 # build a return code for validator to use
 global audit_value
