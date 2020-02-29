@@ -30,6 +30,8 @@ if path.exists(pickle_file):
 
 db = pickledb.load(pickle_file, False)
 duplicates = 0
+skipped_hash = 0
+skipped_symlink = 0
 
 def write_to_db(checksum, fullpath):
     if db.exists(checksum):
@@ -66,7 +68,20 @@ for root, dirs, files in os.walk(dir_to_inventory):
     for file in files:
         fullpath = root+"/"+file
         md5hasher = FileHash('md5')
-        checksum = md5hasher.hash_file(fullpath)
+        try:
+            checksum = md5hasher.hash_file(fullpath)
+        except:
+            print("could not hash " + fullpath)
+            skipped_hash = skipped_hash + 1
+            logger.info("cannot hash a symlink at " + fullpath)
+            q_link = os.path.islink(fullpath)
+            if q_link:
+                print("skipping a symlink at " + fullpath)
+                skipped_symlink = skipped_symlink + 1
+            else:
+                print("could not hah a file and it is not a symlink. BAD bro")
+                logger.info("could not has " + fullpath + " even though it is not a symlink. Super Bad.")
+                sys.exit(3)
         logger.info("hash of file " + fullpath +  " is " + checksum)
         sys.stdout.write('F')
         sys.stdout.flush() # make sure dots show up one by one
@@ -78,9 +93,20 @@ for root, dirs, files in os.walk(dir_to_inventory):
 # cleanm up
 db.dump()
 print("\nend")
+
+# duplicate report
 if duplicates > 0:
     print("Caution you have duplicates, check the log:" + log_file)
     print("Duplicates: " + str(duplicates))
+
+# files that could not be hashed report
+print("skipped hashes: " + str(skipped_hash))
+print("skipped symlink: " + str(skipped_symlink))
+if skipped_hash == skipped_symlink:
+    print("GOOD: skipped files are all symlinks")
+else:
+    print("there are some skipped files that are not symlinks. Super bad")
+
 
 runtime = time.time() - start_time
 logger.info("Time done is -> " + str(runtime) + " seconds.")
