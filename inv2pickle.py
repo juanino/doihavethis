@@ -13,6 +13,7 @@ from os import path
 # also when we switch computers this is a good benchmark of I/O for us
 
 start_time = time.time()
+total_files = 0
 
 # first arg is the pickle to save
 # second arg is the path to inventory
@@ -66,6 +67,7 @@ for root, dirs, files in os.walk(dir_to_inventory):
     logger.info("Working on the directory for inventory")
     logger.info("root dir " +  root)
     for file in files:
+        total_files = total_files + 1
         fullpath = root+"/"+file
         md5hasher = FileHash('md5')
         try:
@@ -102,6 +104,7 @@ if duplicates > 0:
 # files that could not be hashed report
 print("skipped hashes: " + str(skipped_hash))
 print("skipped symlink: " + str(skipped_symlink))
+print("Inspected " + str(total_files) + " files")
 if skipped_hash == skipped_symlink:
     print("GOOD: skipped files are all symlinks")
 else:
@@ -110,3 +113,4 @@ else:
 
 runtime = time.time() - start_time
 logger.info("Time done is -> " + str(runtime) + " seconds.")
+logger.info("Inspected " + str(total_files) + " files")
