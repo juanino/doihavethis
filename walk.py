@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 
 # getting a directory listing of all subdirs is kinda annoying on windows
 # this utility helps us just blob the whole tree into a file for grepping somewhere

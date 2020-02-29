@@ -15,9 +15,13 @@ except:
 pp = pprint.PrettyPrinter(indent=4)
 
 # read yaml
-with open('/etc/diht_integrations.yaml', 'r') as ymlfile:
-    # must use FullLoader
-    cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
+try:
+    with open('/etc/diht_integrations.yaml', 'r') as ymlfile:
+        # must use FullLoader
+        cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
+except:
+    print("no yaml file, no msg sent")
+    sys.exit(2)
 
 
 
