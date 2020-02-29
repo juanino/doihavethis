@@ -16,6 +16,7 @@ pp = pprint.PrettyPrinter(indent=4)
 
 # read yaml
 with open('/etc/diht_integrations.yaml', 'r') as ymlfile:
+    # must use FullLoader
     cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
 
 
