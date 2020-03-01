@@ -32,7 +32,6 @@ for key in keys1:
         dup_counter = dup_counter + 1
     else:
         tqdm.write("Preserve  " + key + " -> " + str(db.exists(key)) + " - " +  str(db2.exists(key)) + " file left: " + str(db.get(key)) + " file right: " + str(db2.get(key))  ) 
-        log_output.append(("Preserve  " + key + " -> " + str(db.exists(key)) + " - " +  str(db2.exists(key)) + " file left: " + str(db.get(key)) + " file right: " + str(db2.get(key))  ) )
         keep_counter = keep_counter + 1
     
 print("there are " + str(len(keys1)) + " in left file" )
