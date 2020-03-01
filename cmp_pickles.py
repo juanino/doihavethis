@@ -10,7 +10,17 @@ try:
     right_file = sys.argv[2]
 except:
     print("Supply two filenames to compare")
+    print("add -quiet at end for less text")
     exit()
+
+try:
+    quiet = sys.argv[3]
+    if quiet == "-quiet":
+        quiet=1
+        print("quiet mode")
+except:
+    print("you can pass -quiet as the third arg to be less verbose")
+    quiet=0
 
 db = pickledb.load(left_file,False)
 db2 = pickledb.load(right_file,False)
@@ -28,10 +38,12 @@ for key in keys1:
     pbar.update(1)
     pbar.set_description("Checking ....." + db.get(key)[1:30] + "...." + db.get(key)[-30:])
     if db.exists(key) and db2.exists(key):
-        tqdm.write("Duplicate " + key + " -> " + str(db.exists(key)) + " - " +  str(db2.exists(key)) + " file left: " + str(db.get(key)) + " file right: " + str(db2.get(key)) )
+        if quiet != 1:
+            tqdm.write("Duplicate " + key + " -> " + str(db.exists(key)) + " - " +  str(db2.exists(key)) + " file left: " + str(db.get(key)) + " file right: " + str(db2.get(key)) )
         dup_counter = dup_counter + 1
     else:
-        tqdm.write("Preserve  " + key + " -> " + str(db.exists(key)) + " - " +  str(db2.exists(key)) + " file left: " + str(db.get(key)) + " file right: " + str(db2.get(key))  ) 
+        if quiet != 1:
+            tqdm.write("Preserve  " + key + " -> " + str(db.exists(key)) + " - " +  str(db2.exists(key)) + " file left: " + str(db.get(key)) + " file right: " + str(db2.get(key))  ) 
         keep_counter = keep_counter + 1
     
 print("there are " + str(len(keys1)) + " in left file" )
