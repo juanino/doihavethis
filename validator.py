@@ -48,7 +48,7 @@ if return_code > 0:
     sys.exit(2)
 
 # 3. Compare the two DBs, printing a summary
-return_code = os.system("./cmp_pickles.py check.db " + master_db)
+return_code = os.system("./cmp_pickles.py check.db " + master_db + " -quiet")
 if return_code > 0:
     print("Comparison failed with return code " + str(return_code))
     message = "./send_slack.py \"Validation failed on " + master_db + " hostname: " + hostname + " ipaddr: " + ipaddr + "\""
