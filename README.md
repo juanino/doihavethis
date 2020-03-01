@@ -31,6 +31,8 @@ root@blah:~# ./doihavethis/pickle_list.py my_stuff.db
 
 # Issues
 * you can't give it multiple directories. run inv2pickle.py twice and use merge_pickles.py to combine them
+* doesn't work with socket files and other special files since a hash can't be generated for those
+* has some issues with pickledb used in raspbian
 
 # Why did i do this
 Mostly because I seem to rewrite variations of this all the time and i can't find my code.
