@@ -32,7 +32,7 @@ estimated_keys = len(keys1)
 
 dup_counter = 0
 keep_counter = 0
-pbar = tqdm(total=estimated_keys,desc="Checking",bar_format="{l_bar}{bar}")
+pbar = tqdm(total=estimated_keys,desc="Checking",bar_format="{l_bar}{bar}",ascii=True)
 
 for key in keys1:
     pbar.update(1)
