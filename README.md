@@ -37,8 +37,8 @@ root@blah:~# ./doihavethis/pickle_list.py my_stuff.db
 # Why did i do this
 Mostly because I seem to rewrite variations of this all the time and i can't find my code.
 This way I'm documenting it for myself, my friends and any other shmuck who has to combine a bunch of old disks, drives, sd cards, whatever.
-Just copy all your files into a working dir and point the questionable dir at it and your master at the location of all your other photos.
-As drives got bigger, it makes no sense to have bunches of disks laying around.
+Just copy all your files into a working dir and run an invenotry with inv2pickle.
+As drives got bigger, it makes no sense to have bunches of disks laying around or even various USB sticks.
 
 Also, it is handy if you are not sure which files you pulled off an SD card, or if you happen to (like in my case) blow away or corrupt an SD card
 and use the wonderful photorec and testdisk to recover the files off the chip, but have no idea which files you already downloaded since recovery
