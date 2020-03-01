@@ -23,14 +23,16 @@ estimated_keys = len(keys1)
 dup_counter = 0
 keep_counter = 0
 pbar = tqdm(total=estimated_keys,desc="Checking",bar_format="{l_bar}{bar}")
+
 for key in keys1:
     pbar.update(1)
     pbar.set_description("Checking ....." + db.get(key)[1:30] + "...." + db.get(key)[-30:])
     if db.exists(key) and db2.exists(key):
-        #print("Duplicate " + key + " -> " + str(db.exists(key)) + " - " +  str(db2.exists(key)) + " file left: " + str(db.get(key)) + " file right: " + str(db2.get(key)) )
+        tqdm.write("Duplicate " + key + " -> " + str(db.exists(key)) + " - " +  str(db2.exists(key)) + " file left: " + str(db.get(key)) + " file right: " + str(db2.get(key)) )
         dup_counter = dup_counter + 1
     else:
-        #print("Preserve  " + key + " -> " + str(db.exists(key)) + " - " +  str(db2.exists(key)) + " file left: " + str(db.get(key)) + " file right: " + str(db2.get(key))  ) 
+        tqdm.write("Preserve  " + key + " -> " + str(db.exists(key)) + " - " +  str(db2.exists(key)) + " file left: " + str(db.get(key)) + " file right: " + str(db2.get(key))  ) 
+        log_output.append(("Preserve  " + key + " -> " + str(db.exists(key)) + " - " +  str(db2.exists(key)) + " file left: " + str(db.get(key)) + " file right: " + str(db2.get(key))  ) )
         keep_counter = keep_counter + 1
     
 print("there are " + str(len(keys1)) + " in left file" )
