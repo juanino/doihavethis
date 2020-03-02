@@ -17,8 +17,7 @@ pp = pprint.PrettyPrinter(indent=4)
 # read yaml
 try:
     with open('/etc/diht_integrations.yaml', 'r') as ymlfile:
-        # must use FullLoader
-        cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
+        cfg = yaml.load(ymlfile)
 except:
     print("no yaml file, no msg sent")
     sys.exit(2)
