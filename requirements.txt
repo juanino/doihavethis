@@ -2,3 +2,4 @@ pickledb
 filehash
 PyYAML
 tqdm
+rq
