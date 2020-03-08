@@ -8,6 +8,12 @@ import time
 import pickledb
 from filehash import FileHash
 from os import path
+from redis import Redis
+from rq import Queue
+from funcs import make_hash
+
+# setup python-rq
+q = Queue(connection=Redis())
 
 # track runtime in case we change hash algorithms in future we can compare
 # also when we switch computers this is a good benchmark of I/O for us
@@ -69,30 +75,14 @@ for root, dirs, files in os.walk(dir_to_inventory):
     for file in files:
         total_files = total_files + 1
         fullpath = root+"/"+file
-        md5hasher = FileHash('md5')
-        try:
-            checksum = md5hasher.hash_file(fullpath)
-        except:
-            print("could not hash " + fullpath)
-            skipped_hash = skipped_hash + 1
-            logger.info("cannot hash a symlink at " + fullpath)
-            q_link = os.path.islink(fullpath)
-            if q_link:
-                print("skipping a symlink at " + fullpath)
-                skipped_symlink = skipped_symlink + 1
-            else:
-                print("could not hah a file and it is not a symlink. BAD bro")
-                logger.info("could not has " + fullpath + " even though it is not a symlink. Super Bad.")
-                sys.exit(3)
-        logger.info("hash of file " + fullpath +  " is " + checksum)
-        sys.stdout.write('F')
-        sys.stdout.flush() # make sure dots show up one by one
-        # write to dictionary with checksum as key
-        write_to_db(checksum, fullpath)
-    sys.stdout.write('-D-')
-    sys.stdout.flush() # make sure dots show up one by one
+        #md5hasher = FileHash('md5')
+        # Instead of generating hash
+        # We queue this for workers
+        
+        result = q.enqueue(
+                make_hash, fullpath)
 
-# cleanm up
+# clean up
 db.dump()
 print("\nend")
 
