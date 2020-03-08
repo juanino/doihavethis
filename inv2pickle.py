@@ -5,7 +5,6 @@ import pprint
 import sys
 import logging
 import time
-import pickledb
 from filehash import FileHash
 from os import path
 from redis import Redis
@@ -21,34 +20,17 @@ q = Queue(connection=Redis())
 start_time = time.time()
 total_files = 0
 
-# first arg is the pickle to save
-# second arg is the path to inventory
+# first arg is the path to inventory
 try:
-    pickle_file = sys.argv[1]
-    dir_to_inventory = sys.argv[2]
+    dir_to_inventory = sys.argv[1]
 except:
-    print("Supply two args, the pickle filename to save and then the directory to scan")
+    print("Supply the directory to scan")
     sys.exit(2)
 
-if path.exists(pickle_file):
-    print("pickle file exists already, probably want to wipe it out or move it")
-    print("especially since I do not delete rows that are gone")
-    sys.exit(2)
-
-db = pickledb.load(pickle_file, False)
 duplicates = 0
 skipped_hash = 0
 skipped_symlink = 0
 
-def write_to_db(checksum, fullpath):
-    if db.exists(checksum):
-        sys.stdout.write('-Duplicate-')
-        sys.stdout.flush() # make sure dots show up one by one
-        logger.info(fullpath + ' is a duplicate to ' + db.get(checksum) )
-        global duplicates
-        duplicates = duplicates + 1
-    db.set(checksum,fullpath)
-    
 # setup logging
 log_file = 'inventory.log'
 logger = logging.getLogger('inv2json ' + __name__)
@@ -66,41 +48,27 @@ handler.setFormatter(formatter)
 logger.addHandler(handler)
 
 logger.info('Starting utility')
+# use logger.debug for adding more details
 logger.debug('Debug logging must be on')
 
 # walk the directory to inventory
+print("Adding.....")
 for root, dirs, files in os.walk(dir_to_inventory):
     logger.info("Working on the directory for inventory")
     logger.info("root dir " +  root)
     for file in files:
         total_files = total_files + 1
+        sys.stdout.write(str(total_files))
+        sys.stdout.write('\r')
         fullpath = root+"/"+file
-        #md5hasher = FileHash('md5')
-        # Instead of generating hash
+        # Instead of generating hash right here
         # We queue this for workers
         
         result = q.enqueue(
-                make_hash, fullpath)
-
-# clean up
-db.dump()
-print("\nend")
-
-# duplicate report
-if duplicates > 0:
-    print("Caution you have duplicates, check the log:" + log_file)
-    print("Duplicates: " + str(duplicates))
-
-# files that could not be hashed report
-print("skipped hashes: " + str(skipped_hash))
-print("skipped symlink: " + str(skipped_symlink))
-print("Inspected " + str(total_files) + " files")
-if skipped_hash == skipped_symlink:
-    print("GOOD: skipped files are all symlinks")
-else:
-    print("there are some skipped files that are not symlinks. Super bad")
-
+                make_hash, fullpath, result_ttl=-1)
+                # keep redis results "forever"
 
 runtime = time.time() - start_time
 logger.info("Time done is -> " + str(runtime) + " seconds.")
 logger.info("Inspected " + str(total_files) + " files")
+print('\n\nAdded ' + str(total_files) + ' files to the queue')

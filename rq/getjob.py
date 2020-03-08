@@ -1,4 +1,4 @@
-
+#!/usr/bin/env python3
 # get all the results from the jobs
 
 from redis import Redis
