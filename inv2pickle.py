@@ -27,10 +27,6 @@ except:
     print("Supply the directory to scan")
     sys.exit(2)
 
-duplicates = 0
-skipped_hash = 0
-skipped_symlink = 0
-
 # setup logging
 log_file = 'inventory.log'
 logger = logging.getLogger('inv2json ' + __name__)
