@@ -63,11 +63,18 @@ logger.info('Starting utility')
 logger.debug('Debug logging must be on')
 
 # walk the directory to inventory
+status_marker = 0 # used for printing how many files processed occasionally
 for root, dirs, files in os.walk(dir_to_inventory):
     logger.info("Working on the directory for inventory")
     logger.info("root dir " +  root)
     for file in files:
         total_files = total_files + 1
+        status_marker = status_marker + 1
+        #print("status marker is: " + str(status_marker))
+        #print("total files is: " + str(total_files))
+        if (status_marker > 1000):
+            print("\n\n[" + str(total_files) + " files]\n\n")
+            status_marker = 0
         fullpath = root+"/"+file
         md5hasher = FileHash('md5')
         try:
