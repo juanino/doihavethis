@@ -97,3 +97,4 @@ doihavethisconfig.py
 *.pickle
 *.db
 output.txt
+check_all.sh
