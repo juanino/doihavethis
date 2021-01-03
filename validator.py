@@ -7,10 +7,13 @@ import socket
 
 hostname = (socket.gethostname())
 try:
-    ipaddr = socket.gethostbyname(socket.gethostname())
+    ipaddr = socket.gethostbyname(hostname)
 except:
     print("Couldn't get ip address of machine for slack message")
     ipaddr = "unknown"
+
+print("hostname is: " + hostname)
+print("ip addr is: " + ipaddr)
 
 # Purpose: Fetch a master DB file and compare to a filesystem
 #          for purpose of regular auditing to detect bit rot or bit flips
