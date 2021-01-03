@@ -98,3 +98,4 @@ doihavethisconfig.py
 *.db
 output.txt
 check_all.sh
+do_validate.sh
